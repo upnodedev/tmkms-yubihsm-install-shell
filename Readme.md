@@ -28,7 +28,13 @@ cd
 apt update && apt upgrade -y
 ```
 
-3. Download tmkms-install.sh
+3. Reboot your PC
+
+```
+reboot
+```
+
+4. Download tmkms-install.sh
 
 ```
 wget ... && chmod +x tmkms-install.sh
