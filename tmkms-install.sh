@@ -120,7 +120,7 @@ EOF
   cat << EOF > tmkms.toml
 [[providers.yubihsm]]
 adapter = { type = "usb" }
-auth = { key = 1, password = "$yubihsm_password" }
+auth = { key = 2, password = "$yubihsm_password" }
 serial_number = "$serial"
 EOF
 
