@@ -2,6 +2,12 @@
 
 Install TMKMS with YubiHSM 2.0 in the easiest way exists on the earth by using our interactive shell
 
+![Upnode](https://user-images.githubusercontent.com/4103490/238152858-a22f38ef-e8e5-4f82-8e3e-abf528cb3812.png)
+
+https://upnode.org
+
+[Stake with Upnode or let Upnode validate your chain](https://upnode.org)
+
 ## Features
 
 1. Setup YubiHSM
@@ -37,7 +43,7 @@ reboot
 4. Download tmkms-install.sh
 
 ```
-wget ... && chmod +x tmkms-install.sh
+wget https://raw.githubusercontent.com/upnodedev/tmkms-yubihsm-install-shell/main/tmkms-install.sh && chmod +x tmkms-install.sh
 ```
 
 ## How to use
