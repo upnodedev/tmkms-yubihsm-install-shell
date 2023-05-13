@@ -171,15 +171,14 @@ if [ $action_id -eq 3 ]; then
 
   # Install cargo for the user
   sudo -u "$username" sh -c 'curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y'
-  sudo -u "$username" sh -c 'source $HOME/.cargo/env'
 
   # Install tmkms for the user
   sudo -u "$username" sh -c 'git clone https://github.com/iqlusioninc/tmkms.git'
-  sudo -u "$username" sh -c 'cd tmkms && cargo build --release --features=yubihsm'
-  sudo -u "$username" sh -c 'cd tmkms && cargo install tmkms --features=yubihsm'
+  sudo -u "$username" sh -c "cd tmkms && /home/$username/.cargo/bin/cargo build --release --features=yubihsm"
+  sudo -u "$username" sh -c "cd tmkms && /home/$username/.cargo/bin/cargo install tmkms --features=yubihsm"
 
   # Init tmkms
-  sudo -u "$username" sh -c 'tmkms init tmkms-config'
+  sudo -u "$username" sh -c "/home/$username/.cargo/bin/tmkms init tmkms-config"
 
   cd
 
@@ -258,6 +257,8 @@ secret_key = "/home/$username/tmkms-config/secrets/kms-identity.key"
 protocol_version = "v0.34"
 reconnect = true
 EOF
+
+  chown $username:$username /home/$username/tmkms-config/tmkms.toml
 
   echo ""
   echo "!! You need to start tmkms again manually by running this script again to prevent unexpected situation."
