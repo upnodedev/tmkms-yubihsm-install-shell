@@ -51,7 +51,7 @@ read -p "Enter the number of your choice: " action_id
 if [ $action_id -eq 1 ]; then
   read -p "This will erase all keys on your YubiHSM2! Continue? (y/n): " confirm_continue
 
-  if [ $confirm_continue -eq "y" ] || [ $confirm_continue -eq "Y" ]; then
+  if [ $confirm_continue == "y" ] || [ $confirm_continue == "Y" ]; then
     cd tmkms-config
 
     cat << EOF > tmkms.toml
