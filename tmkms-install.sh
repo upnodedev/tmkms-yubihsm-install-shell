@@ -173,6 +173,7 @@ if [ $action_id -eq 3 ]; then
   sudo -u "$username" sh -c 'curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y'
 
   # Install tmkms for the user
+  sudo -u "$username" sh -c 'rm -rf tmkms'
   sudo -u "$username" sh -c 'git clone https://github.com/iqlusioninc/tmkms.git'
   sudo -u "$username" sh -c "cd tmkms && /home/$username/.cargo/bin/cargo build --release --features=yubihsm"
   sudo -u "$username" sh -c "cd tmkms && /home/$username/.cargo/bin/cargo install tmkms --features=yubihsm"
