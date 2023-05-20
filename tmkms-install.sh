@@ -6,7 +6,7 @@ file_path="$HOME/tmkms-config/tmkms.toml"
 group_name="yubihsm"
 
 if [ ! -f "$file_path" ]; then
-  if command -v apt-get &> /dev/null then
+  if command -v apt-get &> /dev/null; then
     # Install build-essential
     sudo apt-get update
     sudo apt-get install -y build-essential
