@@ -94,15 +94,17 @@ Please follow the instructions detailed below:
 
 1. Launch your terminal and execute the following command: `./tmkms-install.sh`.
 2. During the setup process, please select '1' to proceed with YubiHSM setup.
-3. You will be prompted to input your serial number and administrative password. If this is your inaugural setup, you should provide "password" as the required password when asked.
+3. You will be prompted to input your serial number and administrative password. If this is your initial setup, you should provide "password" as the required password when asked. If not, please enter your current admin password. 
 4. For your initial YubiHSM, we advise generating a new seed (Option 1). Conversely, for a backup YubiHSM, we recommend employing the administrative key from the first YubiHSM for recovery purposes (Option 2).
 5. Be aware that this process will completely erase your YubiHSM data and generate a new set of keys. It is crucial that you record these keys for future reference.
 6. You will be prompted to input your operator and validator passwords. Please input the operator and validator passwords that were generated earlier.
 7. If you import keys on a machine other than the validator signer server, it will be necessary to duplicate the `yubihsm-key` folder to your validator signer server.
 
+In case you have forgot your admin password, you should perform a hardware reset by pressing top button for at least 10 seconds after plug it in. Please see demonstration at https://www.youtube.com/watch?v=EjOXIzaCmcI&ab_channel=J
+
 ### Importing Key
 
-Please adhere to the following professional instructions:
+Please follow the instructions detailed below:
 
 1. Transfer the `priv_validator_key.json` file to your local computer.
 2. Open your terminal and navigate to the directory containing the aforementioned file. Use the `pwd` command to ascertain the current directory path. For instance, if `pwd` outputs `/home/xxx`, the complete path to your file will be `/home/xxx/priv_validator_key.json`.
@@ -110,6 +112,17 @@ Please adhere to the following professional instructions:
 4. In your terminal, initiate the command: `./tmkms-install.sh`.
 5. As the setup process commences, choose '2' to progress with the Key Management configuration.
 6. Subsequently, select '1' to advance with the key importation procedure.
+7. Please input numeric values starting from 1 in the Key ID field, such as 1, 2, 3, and so on. Kindly make note of the relation between the Key ID, serial number, and chain ID.
+8. Paste the `priv_validator_key.json` file path, which was copied to the clipboard in step 3.
+9. Your key will now be imported into your YubiHSM, and an encrypted backup of the key will be stored in the `yubihsm-backup` folder.
+
+### Generating Key
+
+Please follow the instructions detailed below:
+
+1. In your terminal, initiate the command: `./tmkms-install.sh`.
+2. As the setup process commences, choose '2' to progress with the Key Management configuration.
+3. Subsequently, select '2' to advance with the key generation procedure.
 7. Please input numeric values starting from 1 in the Key ID field, such as 1, 2, 3, and so on. Kindly make note of the relation between the Key ID, serial number, and chain ID.
 8. Paste the `priv_validator_key.json` file path, which was copied to the clipboard in step 3.
 9. Your key will now be imported into your YubiHSM, and an encrypted backup of the key will be stored in the `yubihsm-backup` folder.
@@ -215,7 +228,6 @@ Detected YubiHSM2 USB devices:
 - Serial #0020788888 (bus 1)
 
 Please enter serial: 0020788888
-Please enter key ID: 2
 
 What you want to do?
 1. Import Key
@@ -223,6 +235,7 @@ What you want to do?
 3. List Key
 Enter the number of your choice: 1
 
+Please enter key ID: 2
 Please enter key file name: /root/priv_validator_key.json
 Imported key 0x0002
 Exported key 0x0002 (encrypted under wrap key 0x0001) to /root/yubihsm-backup/0020788888-2.enc
@@ -242,7 +255,6 @@ Detected YubiHSM2 USB devices:
 - Serial #0020788888 (bus 1)
 
 Please enter serial: 0020788888
-Please enter key ID: 2
 
 What you want to do?
 1. Import Key
