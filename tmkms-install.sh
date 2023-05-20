@@ -114,7 +114,6 @@ EOF
   echo ""
 
   read -p "Please enter serial: " serial
-  read -p "Please enter key ID: " key_id
   yubihsm_password=$(cat /root/yubihsm-key/operator-$serial)
 
   cat << EOF > tmkms.toml
@@ -129,10 +128,14 @@ EOF
   echo "1. Import Key"
   echo "2. Generate Key"
   echo "3. List Key"
+  echo "4. Pubkey for create-validator"
 
   read -p "Enter the number of your choice: " action2_id
 
   echo ""
+
+  if [ $action2_id -eq 1 ] || [ $action2_id -eq 2 ]; then
+  read -p "Please enter key ID: " key_id
 
   if [ $action2_id -eq 1 ]; then
     read -p "Please enter key file name: " key_file_name
@@ -144,8 +147,21 @@ EOF
     valconspub="${prefix}valconspub"
 
     tmkms yubihsm keys generate $key_id -p $valconspub -b /root/yubihsm-backup/$serial-$key_id.enc
-  elif [ $action2_id -eq 3 ]; then
+  elif [ $action2_id -eq 3 ] || [ $action2_id -eq 4 ]; then
     tmkms yubihsm keys list
+  fi
+
+  if [ $action2_id -eq 4 ]; then
+    echo ""
+    echo "Please enter the string following [cons] for the corresponding key"
+    read -p "Key: " hex_string
+
+    decoded_string=$(echo -n $hex_string | xxd -r -p)
+    base64_encoded_string=$(echo -n $decoded_string | base64)
+
+    echo ""
+    echo '{"@type":"/cosmos.crypto.ed25519.PubKey","key":"'$base64_encoded_string'"}'
+    echo ""
   fi
 fi
 
