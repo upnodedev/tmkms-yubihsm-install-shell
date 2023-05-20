@@ -41,6 +41,8 @@ EOF
   mkdir -p yubihsm-backup
 fi
 
+source $HOME/.cargo/env
+
 echo ""
 
 echo "What you want to do?"
