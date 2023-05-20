@@ -66,7 +66,7 @@ EOF
 
     read -p "Please enter serial: " serial
     read -p "Please enter admin password (Default: password): " yubihsm_password
-    yubihsm_password=${yubihsm_password:-123}
+    yubihsm_password=${yubihsm_password:-password}
     read -p "Generate new seed (1) or recover (2): (1/2) " new_mode
 
     cat << EOF > tmkms.toml
