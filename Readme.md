@@ -23,46 +23,95 @@ https://upnode.org
 
 Support multiple TMKMS and YubiHSM in a single machine
 
+
+## Supported Operating System
+
+Recommended Ubuntu Server 22.04
+
+Supported most linux and Mac OS
+
+## Note for Mac OS
+
+Enable root user as per the instructions in this [Apple Support document](https://support.apple.com/en-us/HT204012). This is done to bypass udev permission config, which is not present on Mac.
+
+Login as root in the terminal and change the directory to home by running the following commands:
+
+```bash
+sudo su
+cd $HOME
+```
+
+For Mac OS, $HOME is likely be `/var/root`
+
+If you have error while installing tmkms, search google on how to install build-essential for your OS
+
 ## Setup
 
-1. Change user to root and change home to /root
+1. Ensure that your user has sudo permission and in `yubihsm` group. However, if you don't want to set it up, you can switch user to root by using the following commands
 
-```
+```bash
 sudo su
-cd
+cd $HOME
 ```
 
 2. Update and upgrade your machine to the latest version
 
-```
+```bash
 apt update && apt upgrade -y
 ```
 
 3. Reboot your PC
 
-```
+```bash
 reboot
 ```
 
 4. Download tmkms-install.sh
 
-```
+```bash
 wget https://raw.githubusercontent.com/upnodedev/tmkms-yubihsm-install-shell/main/tmkms-install.sh && chmod +x tmkms-install.sh
 ```
 
 ## How to use
 
-Run `./tmkms-install.sh` and follow its instruction (IMPORTANT: Must be run as root)
+Run `./tmkms-install.sh` command in your terminal to install the necessary software.
 
-```
+```bash
 ./tmkms-install.sh
 ```
+
+After setup, check if `tmkms`, `tmkms-config`, `yubihsm-key` and `yubihsm-backup` are populated. If not, it's likely you haven't completed setup correctly.
 
 Note: if you want to import key to YubiHSM, copy your key to a folder and enter its absolute path as key file name
 
 ```
 Please enter key file name: /root/priv_validator_key.json
 ```
+
+### Setup YubiHSM
+
+Please follow the instructions detailed below:
+
+1. Launch your terminal and execute the following command: `./tmkms-install.sh`.
+2. During the setup process, please select '1' to proceed with YubiHSM setup.
+3. You will be prompted to input your serial number and administrative password. If this is your inaugural setup, you should provide "password" as the required password when asked.
+4. For your initial YubiHSM, we advise generating a new seed (Option 1). Conversely, for a backup YubiHSM, we recommend employing the administrative key from the first YubiHSM for recovery purposes (Option 2).
+5. Be aware that this process will completely erase your YubiHSM data and generate a new set of keys. It is crucial that you record these keys for future reference.
+6. You will be prompted to input your operator and validator passwords. Please input the operator and validator passwords that were generated earlier.
+7. If you import keys on a machine other than the validator signer server, it will be necessary to duplicate the `yubihsm-key` folder to your validator signer server.
+
+### Importing Key
+
+Please adhere to the following professional instructions:
+
+1. Transfer the `priv_validator_key.json` file to your local computer.
+2. Open your terminal and navigate to the directory containing the aforementioned file. Use the `pwd` command to ascertain the current directory path. For instance, if `pwd` outputs `/home/xxx`, the complete path to your file will be `/home/xxx/priv_validator_key.json`.
+3. Copy the file path of `priv_validator_key.json`, derived in the previous step, to your clipboard.
+4. In your terminal, initiate the command: `./tmkms-install.sh`.
+5. As the setup process commences, choose '2' to progress with the Key Management configuration.
+6. Subsequently, select '1' to advance with the key importation procedure.
+7. Paste the `priv_validator_key.json` file path, which was copied to the clipboard in step 3.
+8. Your key will now be imported into your YubiHSM, and an encrypted backup of the key will be stored in the `yubihsm-backup` folder.
 
 ## Interactive shell example
 
@@ -138,7 +187,6 @@ Detected YubiHSM2 USB devices:
 - Serial #0020788888 (bus 1)
 
 Please enter serial: 0020788888
-Please enter key ID: 1
 
 What you want to do?
 1. Import Key
@@ -146,6 +194,7 @@ What you want to do?
 3. List Key
 Enter the number of your choice: 2
 
+Please enter key ID: 1
 Please enter address prefix (Ex: cosmos): evmos
 Generated consensus (ed25519) key 0x0001: evmosvalconspub1zcjduepqwp7ds5j07qzgyxluwlvsnzn3ymn8gx35utz0leqm7ww896pf22fq2lshyc
 Wrote backup of key 1 (encrypted under wrap key 1) to /root/yubihsm-backup/0020788888-1.enc

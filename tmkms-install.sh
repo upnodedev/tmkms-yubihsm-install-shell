@@ -6,9 +6,11 @@ file_path="$HOME/tmkms-config/tmkms.toml"
 group_name="yubihsm"
 
 if [ ! -f "$file_path" ]; then
-  # Install build-essential
-  sudo apt-get update
-  sudo apt-get install -y build-essential
+  if command -v apt-get &> /dev/null
+    # Install build-essential
+    sudo apt-get update
+    sudo apt-get install -y build-essential
+  fi
 
   # Install cargo
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
@@ -22,12 +24,14 @@ if [ ! -f "$file_path" ]; then
   cargo install tmkms --features=yubihsm
   cd ..
 
-  # Setup USB allowance for group yubihsm
-  cat << EOF > /etc/udev/rules.d/10-yubihsm.rules
+  if [ -d "/etc/udev" ]; then
+    # Setup USB allowance for group yubihsm
+    sudo cat << EOF > /etc/udev/rules.d/10-yubihsm.rules
 SUBSYSTEMS=="usb", ATTRS{product}=="YubiHSM", GROUP="yubihsm"
 EOF
 
-  udevadm control --reload-rules && udevadm trigger
+    sudo udevadm control --reload-rules && udevadm trigger
+  fi
 
   # Init tmkms
   tmkms init $HOME/tmkms-config
