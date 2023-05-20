@@ -100,7 +100,7 @@ Please follow the instructions detailed below:
 6. You will be prompted to input your operator and validator passwords. Please input the operator and validator passwords that were generated earlier.
 7. If you import keys on a machine other than the validator signer server, it will be necessary to duplicate the `yubihsm-key` folder to your validator signer server.
 
-In case you have forgot your admin password, you should perform a hardware reset by pressing top button for at least 10 seconds after plug it in. Please see demonstration at https://www.youtube.com/watch?v=EjOXIzaCmcI&ab_channel=J
+In case you have forgot your admin password, you should perform a hardware reset by pressing top of YubiHSM for at least 10 seconds after plug it in. Please see demonstration at https://www.youtube.com/watch?v=EjOXIzaCmcI&ab_channel=J
 
 ### Importing Key
 
