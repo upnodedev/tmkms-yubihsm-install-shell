@@ -205,7 +205,7 @@ if [ $action_id -eq 3 ]; then
   cd
 
   # Setup systemd script
-  cat << EOF > /etc/systemd/system/$username.service
+  sudo cat << EOF > /etc/systemd/system/$username.service
 [Unit]
 Description=$username
 After=multi-user.target
@@ -220,7 +220,7 @@ ExecStart=/home/$username/.cargo/bin/tmkms start -c /home/$username/tmkms-config
 WantedBy=multi-user.target
 EOF
 
-  systemctl daemon-reload
+  sudo systemctl daemon-reload
 fi
 
 if [ $action_id -eq 3 ] || [ $action_id -eq 4 ]; then
@@ -244,7 +244,7 @@ EOF
   read -p "Please enter validator endpoint (Ex: tcp://127.0.0.1:26659): " validator_endpoint
   yubihsm_password=$(cat $HOME/yubihsm-key/validator-$serial)
 
-  systemctl stop $username
+  sudo systemctl stop $username
 
   cat << EOF > /home/$username/tmkms-config/tmkms.toml
 # Tendermint KMS configuration file
@@ -296,14 +296,14 @@ if [ $action_id -eq 5 ]; then
 
   echo ""
 
-  systemctl daemon-reload
+  sudo systemctl daemon-reload
 
   if [ $action2_id -eq 1 ]; then
-    systemctl restart $username
-    systemctl enable $username
+    sudo systemctl restart $username
+    sudo systemctl enable $username
   elif [ $action2_id -eq 2 ]; then
-    systemctl stop $username
-    systemctl disable $username
+    sudo systemctl stop $username
+    sudo systemctl disable $username
   fi
 fi
 
