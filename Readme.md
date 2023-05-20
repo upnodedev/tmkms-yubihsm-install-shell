@@ -110,8 +110,9 @@ Please adhere to the following professional instructions:
 4. In your terminal, initiate the command: `./tmkms-install.sh`.
 5. As the setup process commences, choose '2' to progress with the Key Management configuration.
 6. Subsequently, select '1' to advance with the key importation procedure.
-7. Paste the `priv_validator_key.json` file path, which was copied to the clipboard in step 3.
-8. Your key will now be imported into your YubiHSM, and an encrypted backup of the key will be stored in the `yubihsm-backup` folder.
+7. Please input numeric values starting from 1 in the Key ID field, such as 1, 2, 3, and so on. Kindly make note of the relation between the Key ID, serial number, and chain ID.
+8. Paste the `priv_validator_key.json` file path, which was copied to the clipboard in step 3.
+9. Your key will now be imported into your YubiHSM, and an encrypted backup of the key will be stored in the `yubihsm-backup` folder.
 
 ## Interactive shell example
 
