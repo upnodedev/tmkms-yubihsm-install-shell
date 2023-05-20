@@ -2,7 +2,7 @@
 
 echo "TMKMS YubiHSM Installtion Tool by Upnode"
 
-file_path="/root/tmkms-config/tmkms.toml"
+file_path="$HOME/tmkms-config/tmkms.toml"
 group_name="yubihsm"
 
 if [ ! -f "$file_path" ]; then
@@ -30,7 +30,7 @@ EOF
   udevadm control --reload-rules && udevadm trigger
 
   # Init tmkms
-  tmkms init /root/tmkms-config
+  tmkms init $HOME/tmkms-config
 
   # Setup key folder
   mkdir -p yubihsm-key
@@ -90,8 +90,8 @@ EOF
     read -p "authkey 0x0002 [operator]: " operator_key
     read -p "authkey 0x0004 [validator]: " validator_key
 
-    echo $operator_key > /root/yubihsm-key/operator-$serial
-    echo $validator_key > /root/yubihsm-key/validator-$serial
+    echo $operator_key > $HOME/yubihsm-key/operator-$serial
+    echo $validator_key > $HOME/yubihsm-key/validator-$serial
 
     echo ""
     echo "Please take note of other keys in a safe place"
@@ -114,7 +114,7 @@ EOF
   echo ""
 
   read -p "Please enter serial: " serial
-  yubihsm_password=$(cat /root/yubihsm-key/operator-$serial)
+  yubihsm_password=$(cat $HOME/yubihsm-key/operator-$serial)
 
   cat << EOF > tmkms.toml
 [[providers.yubihsm]]
@@ -142,12 +142,12 @@ EOF
     read -p "Please enter key file name: " key_file_name
 
     tmkms yubihsm keys import -t json -i $key_id $key_file_name
-    tmkms yubihsm keys export --id $key_id /root/yubihsm-backup/$serial-$key_id.enc
+    tmkms yubihsm keys export --id $key_id $HOME/yubihsm-backup/$serial-$key_id.enc
   elif [ $action2_id -eq 2 ]; then
     read -p "Please enter address prefix (Ex: cosmos): " prefix
     valconspub="${prefix}valconspub"
 
-    tmkms yubihsm keys generate $key_id -p $valconspub -b /root/yubihsm-backup/$serial-$key_id.enc
+    tmkms yubihsm keys generate $key_id -p $valconspub -b $HOME/yubihsm-backup/$serial-$key_id.enc
   elif [ $action2_id -eq 3 ] || [ $action2_id -eq 4 ]; then
     tmkms yubihsm keys list
   fi
@@ -238,7 +238,7 @@ EOF
   read -p "Please enter key ID: " key_id
   read -p "Please enter address prefix (Ex: cosmos): " prefix
   read -p "Please enter validator endpoint (Ex: tcp://127.0.0.1:26659): " validator_endpoint
-  yubihsm_password=$(cat /root/yubihsm-key/validator-$serial)
+  yubihsm_password=$(cat $HOME/yubihsm-key/validator-$serial)
 
   systemctl stop $username
 
