@@ -135,7 +135,8 @@ EOF
   echo ""
 
   if [ $action2_id -eq 1 ] || [ $action2_id -eq 2 ]; then
-  read -p "Please enter key ID: " key_id
+    read -p "Please enter key ID: " key_id
+  fi
 
   if [ $action2_id -eq 1 ]; then
     read -p "Please enter key file name: " key_file_name
