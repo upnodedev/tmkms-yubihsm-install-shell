@@ -6,6 +6,10 @@ file_path="$HOME/tmkms-config/tmkms.toml"
 group_name="yubihsm"
 
 if [ ! -f "$file_path" ]; then
+  if command -v usermod &> /dev/null; then
+    sudo usermod -a -G yubihsm $(whoami)
+  fi
+
   if command -v apt-get &> /dev/null; then
     # Install build-essential
     sudo apt-get update
@@ -176,16 +180,28 @@ if [ $action_id -eq 3 ] || [ $action_id -eq 4 ] || [ $action_id -eq 5 ]; then
   # Prompt for chain id
   read -p "Enter Chain ID: " chain_id
 
-  # Create username based on chain ID
-  username="tmkms-$chain_id"
+  echo ""
+  echo "Leave alias blank if there is only one validator for chain $chain_id"
+  read -p "Enter Alias: " chain_alias
+
+  # Create username based on chain ID and Alias
+  if [ -z "$chain_alias" ]; then
+    username="tmkms-$chain_id"
+  else
+    username="tmkms-$chain_id-$chain_alias"
+  fi
 
   # Check if user exists
   if id "$username" >/dev/null 2>&1; then
     echo "User $username already exists."
   else
-    # Create user and add to group
-    sudo useradd -m -s /bin/bash -G "$group_name" "$username"
-    echo "User $username created and added to group $group_name."
+    if command -v useradd &> /dev/null; then
+      # Create user and add to group
+      sudo useradd -m -s /bin/bash -G "$group_name" "$username"
+      echo "User $username created and added to group $group_name."
+    else
+      echo "ERROR: Cannot create user automatically, please manually create user $username"
+    fi
   fi
 fi
 
@@ -293,6 +309,7 @@ if [ $action_id -eq 5 ]; then
   echo "What you want to do?"
   echo "1. Restart TMKMS"
   echo "2. Stop TMKMS"
+  echo "3. View Log"
 
   read -p "Enter the number of your choice: " action2_id
 
@@ -306,6 +323,8 @@ if [ $action_id -eq 5 ]; then
   elif [ $action2_id -eq 2 ]; then
     sudo systemctl stop $username
     sudo systemctl disable $username
+  elif [ $action2_id -eq 3 ]; then
+    journalctl -u $username -f
   fi
 fi
 
