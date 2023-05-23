@@ -127,6 +127,46 @@ Please follow the instructions detailed below:
 8. Paste the `priv_validator_key.json` file path, which was copied to the clipboard in step 3.
 9. Your key will now be imported into your YubiHSM, and an encrypted backup of the key will be stored in the `yubihsm-backup` folder.
 
+## Installing or Upgrading TMKMS
+
+Follow these steps to install or upgrade TMKMS:
+
+1. Run the TMKMS YubiHSM Installation Tool.
+2. When prompted with the question "What do you want to do?", enter `3` to select "Install / Upgrade TMKMS".
+3. When prompted for the Chain ID, enter your desired Chain ID. For example, `blockspacerace-0`.
+4. When prompted for the Chain Alias, leave blank if this is the only validator in the chain. Otherwise, enter any name you want to label this particular validator.
+5. Wait for the process to complete. It will install TMKMS, create a user and group with the name of your Chain ID, and generate the necessary configuration.
+
+Next, it will automatically enter the configuration flow described in the next section (Skip 1, 2)
+
+You need to do this only once per validator per chain. Except there is critical patch upgrade.
+
+Next time, you want to update your TMKMS configuration, just use option 4 to update your TMKMS configuration.
+
+## Updating TMKMS Configuration
+
+Follow these steps to update your TMKMS configuration:
+
+1. Run the TMKMS YubiHSM Installation Tool.
+2. When prompted with the question "What do you want to do?", enter `3` to select "Install / Upgrade TMKMS".
+3. When prompted for the serial, enter the serial number of your YubiHSM device.
+4. When prompted for the key ID, enter your key ID. For example, `2`.
+5. When prompted for the address prefix, enter your address prefix. For example, `celestia`.
+6. When prompted for the validator endpoint, enter your validator endpoint, which is priv_validator_laddr in the validator daemon config. For example, `tcp://127.0.0.1:26659`.
+7. Please note that after the installation or configuration, you need to manually start the TMKMS service.
+
+## Restarting or Stopping TMKMS
+
+Follow these steps to restart or stop TMKMS:
+
+1. Run the TMKMS YubiHSM Installation Tool.
+2. When prompted with the question "What do you want to do?", enter `5` to select "Restart / Stop TMKMS".
+3. When prompted for the Chain ID, enter the same Chain ID you used during installation. For example, `blockspacerace-0`.
+4. You'll now have the options to either "Restart TMKMS" or "Stop TMKMS". To restart, enter `1`.
+5. The system will create a symlink for the TMKMS service and restart it.
+
+Please refer to this manual whenever you need to install, configure, or manage TMKMS using the TMKMS YubiHSM Installation Tool by Upnode.
+
 ## Interactive shell example
 
 ### Setup YubiHSM
