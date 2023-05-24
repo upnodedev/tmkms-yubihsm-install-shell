@@ -127,7 +127,7 @@ Please follow the instructions detailed below:
 8. Paste the `priv_validator_key.json` file path, which was copied to the clipboard in step 3.
 9. Your key will now be imported into your YubiHSM, and an encrypted backup of the key will be stored in the `yubihsm-backup` folder.
 
-## Installing or Upgrading TMKMS
+### Installing or Upgrading TMKMS
 
 Follow these steps to install or upgrade TMKMS:
 
@@ -137,25 +137,27 @@ Follow these steps to install or upgrade TMKMS:
 4. When prompted for the Chain Alias, leave blank if this is the only validator in the chain. Otherwise, enter any name you want to label this particular validator.
 5. Wait for the process to complete. It will install TMKMS, create a user and group with the name of your Chain ID, and generate the necessary configuration.
 
-Next, it will automatically enter the configuration flow described in the next section (Skip 1, 2)
-
 You need to do this only once per validator per chain. Except there is critical patch upgrade.
 
 Next time, you want to update your TMKMS configuration, just use option 4 to update your TMKMS configuration.
 
-## Updating TMKMS Configuration
+Next, it will automatically enter the configuration flow described in the next section (Skip 1, 2, 3, 4)
+
+### Updating TMKMS Configuration
 
 Follow these steps to update your TMKMS configuration:
 
 1. Run the TMKMS YubiHSM Installation Tool.
-2. When prompted with the question "What do you want to do?", enter `3` to select "Install / Upgrade TMKMS".
-3. When prompted for the serial, enter the serial number of your YubiHSM device.
-4. When prompted for the key ID, enter your key ID. For example, `2`.
-5. When prompted for the address prefix, enter your address prefix. For example, `celestia`.
-6. When prompted for the validator endpoint, enter your validator endpoint, which is priv_validator_laddr in the validator daemon config. For example, `tcp://127.0.0.1:26659`.
-7. Please note that after the installation or configuration, you need to manually start the TMKMS service.
+2. When prompted with the question "What do you want to do?", enter `4` to select "Update TMKMS config".
+3. When prompted for the Chain ID, enter your desired Chain ID. For example, `blockspacerace-0`.
+4. When prompted for the Chain Alias, leave blank if this is the only validator in the chain. Otherwise, enter any name you want to label this particular validator.
+5. When prompted for the serial, enter the serial number of your YubiHSM device.
+6. When prompted for the key ID, enter your key ID. For example, `2`.
+7. When prompted for the address prefix, enter your address prefix. For example, `celestia`.
+8. When prompted for the validator endpoint, enter your validator endpoint, which is priv_validator_laddr in the validator daemon config. For example, `tcp://127.0.0.1:26659`.
+9. Please note that after the installation or configuration, you need to manually start the TMKMS service.
 
-## Restarting or Stopping TMKMS
+### Restarting or Stopping TMKMS
 
 Follow these steps to restart or stop TMKMS:
 
