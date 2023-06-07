@@ -8,7 +8,7 @@ group_name="yubihsm"
 if [ ! -f "$file_path" ]; then
   if command -v usermod &> /dev/null; then
     [ $(sudo getent group yubihsm) ] || sudo groupadd yubihsm
-    sudo usermod -a -G yubihsm $(whoami)
+    sudo usermod -aG yubihsm $(whoami)
   fi
 
   if command -v apt-get &> /dev/null; then
