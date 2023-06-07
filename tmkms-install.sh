@@ -224,7 +224,7 @@ if [ $action_id -eq 3 ]; then
   cd
 
   # Setup systemd script
-  sudo sh -c "cat >>/etc/systemd/system/$username.service" <<-EOF
+  sudo sh -c "cat > /etc/systemd/system/$username.service" <<-EOF
 [Unit]
 Description=$username
 After=multi-user.target
@@ -265,7 +265,7 @@ EOF
 
   sudo systemctl stop $username
 
-  sudo -u "$username" sh -c "cat >>/home/$username/tmkms-config/tmkms.toml" <<-EOF
+  sudo -u "$username" sh -c "cat > /home/$username/tmkms-config/tmkms.toml" <<-EOF
 # Tendermint KMS configuration file
 
 ## Chain Configuration
