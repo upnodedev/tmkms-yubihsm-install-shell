@@ -5,6 +5,8 @@ echo "TMKMS YubiHSM Installtion Tool by Upnode"
 file_path="$HOME/tmkms-config/tmkms.toml"
 group_name="yubihsm"
 
+cd $HOME
+
 if [ ! -f "$file_path" ]; then
   if command -v usermod &> /dev/null; then
     [ $(sudo getent group yubihsm) ] || sudo groupadd yubihsm
