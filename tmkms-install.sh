@@ -215,8 +215,8 @@ if [ $action_id -eq 3 ]; then
   # Install tmkms for the user
   sudo -u "$username" sh -c "rm -rf /home/$username/tmkms"
   sudo -u "$username" sh -c "git clone https://github.com/iqlusioninc/tmkms.git /home/$username/tmkms"
-  sudo -u "$username" sh -c "cd tmkms && /home/$username/.cargo/bin/cargo build --release --features=yubihsm"
-  sudo -u "$username" sh -c "cd tmkms && /home/$username/.cargo/bin/cargo install tmkms --features=yubihsm"
+  sudo -u "$username" sh -c "cd /home/$username/tmkms && /home/$username/.cargo/bin/cargo build --release --features=yubihsm"
+  sudo -u "$username" sh -c "cd /home/$username/tmkms && /home/$username/.cargo/bin/cargo install tmkms --features=yubihsm"
 
   # Init tmkms
   sudo -u "$username" sh -c "/home/$username/.cargo/bin/tmkms init tmkms-config"
@@ -224,7 +224,7 @@ if [ $action_id -eq 3 ]; then
   cd
 
   # Setup systemd script
-  sudo cat << EOF > /etc/systemd/system/$username.service
+  sudo sh -c "cat >>/etc/systemd/system/$username.service" <<-EOF
 [Unit]
 Description=$username
 After=multi-user.target
