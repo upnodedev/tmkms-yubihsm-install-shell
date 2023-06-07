@@ -219,7 +219,7 @@ if [ $action_id -eq 3 ]; then
   sudo -u "$username" sh -c "cd /home/$username/tmkms && /home/$username/.cargo/bin/cargo install tmkms --features=yubihsm"
 
   # Init tmkms
-  sudo -u "$username" sh -c "/home/$username/.cargo/bin/tmkms init tmkms-config"
+  sudo -u "$username" sh -c "/home/$username/.cargo/bin/tmkms init /home/$username/tmkms-config"
 
   cd
 
@@ -265,7 +265,7 @@ EOF
 
   sudo systemctl stop $username
 
-  cat << EOF > /home/$username/tmkms-config/tmkms.toml
+  sudo -u "$username" sh -c "cat >>/home/$username/tmkms-config/tmkms.toml" <<-EOF
 # Tendermint KMS configuration file
 
 ## Chain Configuration
@@ -299,7 +299,7 @@ protocol_version = "v0.34"
 reconnect = true
 EOF
 
-  chown $username:$username /home/$username/tmkms-config/tmkms.toml
+  sudo chown $username:$username /home/$username/tmkms-config/tmkms.toml
 
   echo ""
   echo "!! You need to start tmkms again manually by running this script again to prevent unexpected situation."
