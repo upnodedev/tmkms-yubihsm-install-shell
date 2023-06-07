@@ -42,8 +42,8 @@ EOF
   tmkms init $HOME/tmkms-config
 
   # Setup key folder
-  mkdir -p yubihsm-key
-  mkdir -p yubihsm-backup
+  mkdir -p $HOME/yubihsm-key
+  mkdir -p $HOME/yubihsm-backup
 fi
 
 source $HOME/.cargo/env
