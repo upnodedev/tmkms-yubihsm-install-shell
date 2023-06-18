@@ -320,11 +320,13 @@ if [ $action_id -eq 5 ]; then
   if [ $action2_id -eq 1 ]; then
     sudo systemctl restart $username
     sudo systemctl enable $username
+    sudo journalctl -u $username -f
   elif [ $action2_id -eq 2 ]; then
     sudo systemctl stop $username
     sudo systemctl disable $username
+    sudo systemctl status $username
   elif [ $action2_id -eq 3 ]; then
-    journalctl -u $username -f
+    sudo journalctl -u $username -f
   fi
 fi
 

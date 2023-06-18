@@ -1,0 +1,4 @@
+#!/bin/bash
+
+rm -f RESTORE_SERIAL
+rm -f RESTORE_OPERATOR_KEY
