@@ -5,9 +5,12 @@ echo "TMKMS YubiHSM Installtion Tool by Upnode"
 file_path="$HOME/tmkms-config/tmkms.toml"
 group_name="yubihsm"
 
+cd $HOME
+
 if [ ! -f "$file_path" ]; then
   if command -v usermod &> /dev/null; then
-    sudo usermod -a -G yubihsm $(whoami)
+    [ $(sudo getent group yubihsm) ] || sudo groupadd yubihsm
+    sudo usermod -aG yubihsm $(whoami)
   fi
 
   if command -v apt-get &> /dev/null; then
@@ -34,15 +37,15 @@ if [ ! -f "$file_path" ]; then
 SUBSYSTEMS=="usb", ATTRS{product}=="YubiHSM", GROUP="yubihsm"
 EOF
 
-    sudo udevadm control --reload-rules && udevadm trigger
+    sudo udevadm control --reload-rules && sudo udevadm trigger
   fi
 
   # Init tmkms
   tmkms init $HOME/tmkms-config
 
   # Setup key folder
-  mkdir -p yubihsm-key
-  mkdir -p yubihsm-backup
+  mkdir -p $HOME/yubihsm-key
+  mkdir -p $HOME/yubihsm-backup
 fi
 
 source $HOME/.cargo/env
@@ -206,24 +209,22 @@ if [ $action_id -eq 3 ] || [ $action_id -eq 4 ] || [ $action_id -eq 5 ]; then
 fi
 
 if [ $action_id -eq 3 ]; then
-  cd /home/$username
-
   # Install cargo for the user
   sudo -u "$username" sh -c 'curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y'
 
   # Install tmkms for the user
-  sudo -u "$username" sh -c 'rm -rf tmkms'
-  sudo -u "$username" sh -c 'git clone https://github.com/iqlusioninc/tmkms.git'
-  sudo -u "$username" sh -c "cd tmkms && /home/$username/.cargo/bin/cargo build --release --features=yubihsm"
-  sudo -u "$username" sh -c "cd tmkms && /home/$username/.cargo/bin/cargo install tmkms --features=yubihsm"
+  sudo -u "$username" sh -c "rm -rf /home/$username/tmkms"
+  sudo -u "$username" sh -c "git clone https://github.com/iqlusioninc/tmkms.git /home/$username/tmkms"
+  sudo -u "$username" sh -c "cd /home/$username/tmkms && /home/$username/.cargo/bin/cargo build --release --features=yubihsm"
+  sudo -u "$username" sh -c "cd /home/$username/tmkms && /home/$username/.cargo/bin/cargo install tmkms --features=yubihsm"
 
   # Init tmkms
-  sudo -u "$username" sh -c "/home/$username/.cargo/bin/tmkms init tmkms-config"
+  sudo -u "$username" sh -c "/home/$username/.cargo/bin/tmkms init /home/$username/tmkms-config"
 
   cd
 
   # Setup systemd script
-  sudo cat << EOF > /etc/systemd/system/$username.service
+  sudo sh -c "cat > /etc/systemd/system/$username.service" <<-EOF
 [Unit]
 Description=$username
 After=multi-user.target
@@ -264,7 +265,7 @@ EOF
 
   sudo systemctl stop $username
 
-  cat << EOF > /home/$username/tmkms-config/tmkms.toml
+  sudo -u "$username" sh -c "cat > /home/$username/tmkms-config/tmkms.toml" <<-EOF
 # Tendermint KMS configuration file
 
 ## Chain Configuration
@@ -298,7 +299,7 @@ protocol_version = "v0.34"
 reconnect = true
 EOF
 
-  chown $username:$username /home/$username/tmkms-config/tmkms.toml
+  sudo chown $username:$username /home/$username/tmkms-config/tmkms.toml
 
   echo ""
   echo "!! You need to start tmkms again manually by running this script again to prevent unexpected situation."
