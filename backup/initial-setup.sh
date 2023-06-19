@@ -3,6 +3,11 @@
 file_path="$HOME/tmkms-config/tmkms.toml"
 group_name="yubihsm"
 
+if [ ! -f "tmkms-install.sh" ]; then
+  wget https://raw.githubusercontent.com/upnodedev/tmkms-yubihsm-install-shell/main/tmkms-install.sh
+  chmod +x tmkms-install.sh
+fi
+
 if [ ! -f "$file_path" ]; then
   echo "Setting up initial TMKMS"
 

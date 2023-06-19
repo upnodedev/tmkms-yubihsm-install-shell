@@ -67,10 +67,13 @@ if [ $action_id -eq 1 ]; then
   if [ $confirm_continue == "y" ] || [ $confirm_continue == "Y" ]; then
     cd tmkms-config
 
+    read -p "Please enter admin password (Default: password): " yubihsm_password
+    yubihsm_password=${yubihsm_password:-password}
+
     cat << EOF > tmkms.toml
 [[providers.yubihsm]]
 adapter = { type = "usb" }
-auth = { key = 1, password = "password" }
+auth = { key = 1, password = "$yubihsm_password" }
 EOF
 
     tmkms yubihsm detect
@@ -78,8 +81,6 @@ EOF
     echo ""
 
     read -p "Please enter serial: " serial
-    read -p "Please enter admin password (Default: password): " yubihsm_password
-    yubihsm_password=${yubihsm_password:-password}
     read -p "Generate new seed (1) or recover (2): (1/2) " new_mode
 
     cat << EOF > tmkms.toml

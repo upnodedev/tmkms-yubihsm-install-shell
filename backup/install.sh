@@ -3,6 +3,9 @@
 __dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 username=$0
 
+backup_serial=$(cat $__dir/BACKUP_SERIAL)
+serial=$(cat $HOME/RESTORE_SERIAL)
+
 # Check if user exists
 if id "$username" >/dev/null 2>&1; then
   echo "User $username already exists."
@@ -30,6 +33,9 @@ if [ ! sudo -u "$username" test -f "/home/$username/tmkms-config" ]; then
   # Copy TMKMS to the home folder
   sudo cp -r ${__dir}/tmkms-config/$username /home/$username/tmkms-config
   sudo chown -r $username:$username /home/$username/tmkms-config
+
+  # Replace serial
+  sed -i "s/$backup_serial/$serial/g" "/home/$username/tmkms-config/tmkms.toml"
 
   cd
 

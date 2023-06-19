@@ -19,7 +19,12 @@ echo ""
 cd ..
 
 read -p "Please enter serial: " serial
-read -p "Please enter operator key: " operator_key
 
-echo $serial > RESTORE_SERIAL
-echo $operator_key > RESTORE_OPERATOR_KEY
+if [ -f "$__dir/yubihsm-key/operator-$serial" ]; then
+  value=`cat $__dir/yubihsm-key/operator-$serial`
+else
+  read -p "Please enter operator key: " operator_key
+fi
+
+echo $serial > $HOME/RESTORE_SERIAL
+echo $operator_key > $HOME/RESTORE_OPERATOR_KEY
