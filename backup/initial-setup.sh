@@ -48,4 +48,11 @@ EOF
   # Setup key folder
   mkdir -p yubihsm-key
   mkdir -p yubihsm-backup
+
+  echo "====================================================="
+  echo "NOTE: If you aren't using root, you may need to restart your shell session or your machine before proceed"
+  echo "====================================================="
+  echo
+
+  exit
 fi

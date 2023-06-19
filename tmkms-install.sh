@@ -46,6 +46,11 @@ EOF
   # Setup key folder
   mkdir -p $HOME/yubihsm-key
   mkdir -p $HOME/yubihsm-backup
+
+  echo "====================================================="
+  echo "NOTE: If you aren't using root, you may need to restart your shell session or your machine before proceed"
+  echo "====================================================="
+  echo
 fi
 
 source $HOME/.cargo/env
