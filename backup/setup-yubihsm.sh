@@ -1,6 +1,6 @@
 read -p "Do you want to reinitialize your YubiHSM2 (Do only once for each device)? (y/n): " confirm_setup
 
-if [ $action_id -eq 1 ]; then
+if [ $confirm_setup == "y" ] || [ $confirm_setup == "Y" ]; then
   read -p "This will erase all keys on your YubiHSM2! Continue? (y/n): " confirm_continue
 
   if [ $confirm_continue == "y" ] || [ $confirm_continue == "Y" ]; then

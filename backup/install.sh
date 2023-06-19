@@ -1,7 +1,7 @@
 #!/bin/bash
 
 __dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-username=$0
+username=$1
 
 backup_serial=$(cat $__dir/BACKUP_SERIAL)
 serial=$(cat $HOME/RESTORE_SERIAL)
@@ -20,7 +20,11 @@ else
 fi
 
 # Install TMKMS and copy the config folder
-if [ ! sudo -u "$username" test -f "/home/$username/tmkms-config" ]; then
+if sudo -u "$username" test -f "/home/$username/tmkms-config/tmkms.toml"; then
+  echo "User $username has already configured! Skipping..."
+else
+  echo "Installing TMKMS for user $username..."
+
   # Install cargo for the user
   sudo -u "$username" sh -c 'curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y'
 
@@ -32,10 +36,10 @@ if [ ! sudo -u "$username" test -f "/home/$username/tmkms-config" ]; then
 
   # Copy TMKMS to the home folder
   sudo cp -r ${__dir}/tmkms-config/$username /home/$username/tmkms-config
-  sudo chown -r $username:$username /home/$username/tmkms-config
+  sudo chown -R $username:$username -- /home/$username/tmkms-config
 
   # Replace serial
-  sed -i "s/$backup_serial/$serial/g" "/home/$username/tmkms-config/tmkms.toml"
+  sudo sed -i "s/$backup_serial/$serial/g" "/home/$username/tmkms-config/tmkms.toml"
 
   cd
 

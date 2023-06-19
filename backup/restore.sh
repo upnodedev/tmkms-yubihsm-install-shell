@@ -3,8 +3,8 @@
 __dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 source ${__dir}/initial-setup.sh
-source ${__dir}/restore-key.sh
 source ${__dir}/setup-yubihsm.sh
+source ${__dir}/restore-key.sh
 source ${__dir}/user-input.sh
 
 # Import keys

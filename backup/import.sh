@@ -17,6 +17,10 @@ EOF
 
 if [ -f "$__dir/yubihsm-backup/$backup_serial-$0.enc" ]; then
   tmkms yubihsm keys import "$__dir/yubihsm-backup/$backup_serial-$0.enc" || true
+
+  echo $($__dir/yubihsm-backup/$backup_serial-$0.enc) > $HOME/yubihsm-backup/$serial-$0.enc
 else
-  echo "Key not found for ID $0 Skipping..."
+  echo "Key not found for ID $1 Skipping..."
 fi
+
+cd

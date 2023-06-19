@@ -39,7 +39,7 @@ if [ ! -f "$file_path" ]; then
 SUBSYSTEMS=="usb", ATTRS{product}=="YubiHSM", GROUP="yubihsm"
 EOF
 
-    sudo udevadm control --reload-rules && udevadm trigger
+    sudo udevadm control --reload-rules && sudo udevadm trigger
   fi
 
   # Init tmkms
