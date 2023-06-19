@@ -15,10 +15,10 @@ auth = { key = 2, password = "$yubihsm_password" }
 serial_number = "$serial"
 EOF
 
-if [ -f "$__dir/yubihsm-backup/$backup_serial-$0.enc" ]; then
-  tmkms yubihsm keys import "$__dir/yubihsm-backup/$backup_serial-$0.enc" || true
+if [ -f "$__dir/yubihsm-backup/$backup_serial-$1.enc" ]; then
+  tmkms yubihsm keys import "$__dir/yubihsm-backup/$backup_serial-$1.enc" || true
 
-  echo $(cat $__dir/yubihsm-backup/$backup_serial-$0.enc) > $HOME/yubihsm-backup/$serial-$0.enc
+  echo $(cat $__dir/yubihsm-backup/$backup_serial-$1.enc) > $HOME/yubihsm-backup/$serial-$1.enc
 else
   echo "Key not found for ID $1 Skipping..."
 fi
