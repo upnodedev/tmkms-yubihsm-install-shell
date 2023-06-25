@@ -27,9 +27,14 @@ else
   echo "Key not found for ID $1"
 
   read -p "Please enter path to your priv_validator_key.json for key ID $1: " key_file_name
-  tmkms yubihsm keys import -t json -i $1 $key_file_name || true
-  rm -f $HOME/yubihsm-backup/$serial-$1.enc
-  tmkms yubihsm keys export --id $key_id $HOME/yubihsm-backup/$serial-$1.enc || true
+
+  if [ ! -z "${key_file_name}" ]; then
+    tmkms yubihsm keys import -t json -i $1 $key_file_name || true
+    rm -f $HOME/yubihsm-backup/$serial-$1.enc
+    tmkms yubihsm keys export --id $key_id $HOME/yubihsm-backup/$serial-$1.enc || true
+  else
+    echo "Skipping..."
+  fi
 fi
 
 cd
