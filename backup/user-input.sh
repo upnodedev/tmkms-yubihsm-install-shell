@@ -26,6 +26,9 @@ echo $(cat $__dir/yubihsm-key/validator-$backup_serial) > $HOME/yubihsm-key/vali
 if [ -f "$__dir/yubihsm-key/operator-$backup_serial" ]; then
   operator_key=`cat $__dir/yubihsm-key/operator-$backup_serial`
   echo $operator_key > $HOME/yubihsm-key/operator-$serial
+else if [ -f "$HOME/yubihsm-key/operator-$backup_serial" ]; then
+  operator_key=`cat $HOME/yubihsm-key/operator-$backup_serial`
+  echo $operator_key > $HOME/yubihsm-key/operator-$serial
 else
   read -p "Please enter operator key: " operator_key
 fi
