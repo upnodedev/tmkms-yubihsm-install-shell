@@ -15,7 +15,7 @@ auth = { key = 2, password = "$yubihsm_password" }
 serial_number = "$serial"
 EOF
 
-if [ ! -f "$__dir/yubihsm-backup/$backup_serial-$1.enc" ] && [ -f "$HOME/yubihsm-backup/$backup_serial-$1.enc"]; then
+if [ ! -f "$__dir/yubihsm-backup/$backup_serial-$1.enc" -a -f "$HOME/yubihsm-backup/$backup_serial-$1.enc" ]; then
   cp $HOME/yubihsm-backup/$backup_serial-$1.enc $__dir/yubihsm-backup/$backup_serial-$1.enc
 fi
 
