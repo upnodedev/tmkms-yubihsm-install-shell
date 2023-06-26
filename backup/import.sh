@@ -21,6 +21,7 @@ fi
 
 if [ -f "$__dir/yubihsm-backup/$backup_serial-$1.enc" ]; then
   tmkms yubihsm keys import "$__dir/yubihsm-backup/$backup_serial-$1.enc" || true
+  tmkms yubihsm keys export --id $1 $HOME/yubihsm-backup/$serial-$1.enc || true
 
   echo $(cat $__dir/yubihsm-backup/$backup_serial-$1.enc) > $HOME/yubihsm-backup/$serial-$1.enc
 else
@@ -31,7 +32,7 @@ else
   if [ ! -z "${key_file_name}" ]; then
     tmkms yubihsm keys import -t json -i $1 $key_file_name || true
     rm -f $HOME/yubihsm-backup/$serial-$1.enc
-    tmkms yubihsm keys export --id $key_id $HOME/yubihsm-backup/$serial-$1.enc || true
+    tmkms yubihsm keys export --id $1 $HOME/yubihsm-backup/$serial-$1.enc || true
   else
     echo "Skipping..."
   fi
