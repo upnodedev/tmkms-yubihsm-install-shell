@@ -20,7 +20,14 @@ if [ ! -f "$__dir/yubihsm-backup/$backup_serial-$1.enc" -a -f "$HOME/yubihsm-bac
 fi
 
 if [ -f "$__dir/yubihsm-backup/$backup_serial-$1.enc" ]; then
-  tmkms yubihsm keys import "$__dir/yubihsm-backup/$backup_serial-$1.enc" || true
+  backup_file=$__dir/yubihsm-backup/$backup_serial-$1.enc
+  length=$(wc -c < $backup_file)
+  if [ "$length" -ne 0 ] && [ -z "$(tail -c -1 < $backup_file)" ]; then
+    # The file ends with a newline or null
+    dd if=/dev/null of=$backup_file obs="$((length-1))" seek=1
+  fi
+
+  tmkms yubihsm keys import "$backup_file" || true
   tmkms yubihsm keys export --id $1 $HOME/yubihsm-backup/$serial-$1.enc || true
 
   echo $(cat $__dir/yubihsm-backup/$backup_serial-$1.enc) > $HOME/yubihsm-backup/$serial-$1.enc
