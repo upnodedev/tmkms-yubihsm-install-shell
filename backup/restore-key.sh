@@ -2,11 +2,6 @@
 
 __dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-read -p "Restoring may interupt working instance! Continue? (y/n): " confirm_continue
+cp -r -n $__dir/yubihsm-key $HOME/yubihsm-key
+cp -r -n $__dir/yubihsm-backup $HOME/yubihsm-backup
 
-if [ $confirm_continue == "y" ] || [ $confirm_continue == "Y" ]; then
-  cp -r -n $__dir/yubihsm-key $HOME/yubihsm-key
-  cp -r -n $__dir/yubihsm-backup $HOME/yubihsm-backup
-else
-  exit
-fi
