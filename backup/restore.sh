@@ -2,6 +2,9 @@
 
 __dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+mkdir -p ${__dir}/yubihsm-backup
+mkdir -p ${__dir}/yubihsm-key
+
 source ${__dir}/initial-setup.sh
 source ${__dir}/setup-yubihsm.sh
 source ${__dir}/restore-key.sh

@@ -21,7 +21,12 @@ cd ..
 
 read -p "Please enter serial: " serial
 
-echo $(cat $__dir/yubihsm-key/validator-$backup_serial) > $HOME/yubihsm-key/validator-$serial
+if [ -f "$__dir/yubihsm-key/validator-$backup_serial" ]; then
+  echo $(cat $__dir/yubihsm-key/validator-$backup_serial) > $HOME/yubihsm-key/validator-$serial
+elif [ -f "$HOME/yubihsm-key/validator-$backup_serial" ]; then
+  echo $(cat $HOME/yubihsm-key/validator-$backup_serial) > $HOME/yubihsm-key/validator-$serial
+  echo $(cat $HOME/yubihsm-key/validator-$backup_serial) > $__dir/yubihsm-key/validator-$backup_serial
+fi
 
 if [ -f "$__dir/yubihsm-key/operator-$backup_serial" ]; then
   operator_key=`cat $__dir/yubihsm-key/operator-$backup_serial`
