@@ -33,7 +33,7 @@ if [ ! -f "$file_path" ]; then
 
   if [ -d "/etc/udev" ]; then
     # Setup USB allowance for group yubihsm
-    sudo cat << EOF > /etc/udev/rules.d/10-yubihsm.rules
+    sudo sh -c "cat > /etc/udev/rules.d/10-yubihsm.rules" <<-EOF
 SUBSYSTEMS=="usb", ATTRS{product}=="YubiHSM", GROUP="yubihsm"
 EOF
 
