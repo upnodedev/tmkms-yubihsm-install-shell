@@ -133,7 +133,11 @@ EOF
   echo ""
 
   read -p "Please enter serial: " serial
-  yubihsm_password=$(cat $HOME/yubihsm-key/operator-$serial)
+  if [ -e "$HOME/yubihsm-key/operator-$serial" ]; then
+    yubihsm_password=$(cat $HOME/yubihsm-key/operator-$serial)
+  else
+    read -p "Please enter operator key: " yubihsm_password
+  fi
 
   cat << EOF > tmkms.toml
 [[providers.yubihsm]]
